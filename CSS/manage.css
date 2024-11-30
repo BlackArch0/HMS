@@ -1,0 +1,48 @@
+.success{
+    margin-top: 25px;
+    
+}
+.box{
+    width: 500px;
+    background: #fff;
+    border-radius: 6px;
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translate(-50% -50%) scale(0.1);
+    font-weight: 400;
+    padding: 0 30px 30px;
+    text-align: center;
+    visibility: hidden;
+    color: #333;
+    font-family:'Courier New', Courier, monospace;
+    transition: transform 0.4s, top 0.4s;
+}
+.open{
+    visibility: visible;
+    top: 50%;
+    transform: translate(-50% -50%) scale(1);
+
+}
+.ok{
+    padding: 5px 40px;
+    background: rgba(149, 255, 73, 0.521);
+    cursor: pointer;
+}
+.ok:hover{
+        padding: 5px 40px;
+        background: rgb(111, 255, 9);
+        animation-delay: 2s;
+        animation: ease;
+}
+.no{
+    padding: 5px 40px;
+    background: rgba(255, 79, 73, 0.521);
+    cursor: pointer;
+}
+.no:hover{
+    padding: 5px 40px;
+    background:  rgb(255, 8, 0);
+    animation-delay: 2s;
+    animation: ease;
+}

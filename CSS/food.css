@@ -1,0 +1,97 @@
+@media only screen and (max-width: 1600px){
+  .card {
+  padding: 10px;
+  background-color: rgb(132, 164, 169);
+  width: 70%;
+  ;
+  margin: 10px;
+  height: 190px;
+  box-sizing: border-box;
+  border-radius: 10px;
+  box-shadow: 0px 5px 10px 0px rgba(0, 0, 0, 0.5);
+  transition: transform ease 0.5s, box-shadow ease 0.5s;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0px 10px 20px 2px rgba(0, 0, 0, 0.25);
+}
+
+.price {
+  font-weight: 400;
+  font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+}
+
+.d {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.card .p {
+  background: rgba(255, 245, 245, 0.696);
+  padding: 10px;
+  border-style: none;
+  border-radius: 10px;
+}
+
+.card .p:hover {
+  background-color: rgba(171, 179, 180, 0.762);
+}
+
+
+
+.containerf1 {
+  margin-top: 25x;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.info {
+  margin-left: 368px;
+  margin-top: -155px;
+
+}
+
+.submisson {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  width: 100%;
+}
+
+.sp {
+  height: max-content;
+  width: max-content;
+  background: rgb(161, 125, 99);
+  display: flex;
+  -webkit-box-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  justify-content: center;
+  border-radius: 4px;
+  color: rgb(255, 255, 255);
+  font-size: 1.2rem;
+  border: none;
+  padding: 0.1rem 0.5rem;
+}
+}
+@media only screen and (max-width: 600px){
+.info {
+  margin-left: 8px;
+  margin-top: 39px;
+}
+
+.card {
+  padding:10px 340px;
+  background-color: rgb(132, 164, 169);
+  width: 70%;
+  margin: 10px;
+  height: 454px;
+  box-sizing: border-box;
+  border-radius: 10px;
+  box-shadow: 0px 5px 10px 0px rgba(0, 0, 0, 0.5);
+  transition: transform ease 0.5s, box-shadow ease 0.5s;
+}
+}
