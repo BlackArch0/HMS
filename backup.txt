@@ -1,0 +1,456 @@
+if ($result->num_rows > 0) {
+    while($row = $result->fetch_assoc()) {
+        echo "Room ID: " . $row["id"] . "<br>";
+        echo "Room Name: " . $row["name"] . "<br>";
+        echo "Description: " . $row["description"] . "<br>";
+        echo "Price: " . $row["price"] . "<br>";
+        echo "<form action='book_room.php' method='post'>";
+        echo "<input type='hidden' name='room_id' value='" . $row["id"] . "'>";
+        echo "<input type='text' name='customer_name' placeholder='Enter your name'>";
+        echo "<input type='date' name='start_date'>";
+        echo "<input type='date' name='end_date'>";
+        echo "<input type='submit' value='Book Room'>";
+        echo "</form>";
+    }
+} else {
+    echo "No rooms available";
+}
+if (isset($_POST["customer_name"])) {
+	$room_id = $_POST["room_id"];
+	$room_type = $_POST["room_type"];
+	$customer_name = $_POST["customer_name"];
+	$start_date = $_POST["start_date"];
+	$end_date = $_POST["end_date"];
+
+	// Insert the booking details into the database
+	$sql = "INSERT INTO rooms (customer_name, room_type, start_date, end_date) VALUES ('$customer_name',$room_type, '$start_date', '$end_date')";
+
+	if ($conn->query($sql) === TRUE) {
+		echo "Booking successful";
+		echo "<table border='1'>";
+		echo "<tr><td>$room_id</td><td>$room_type</td><td>$customer_name</td><td>$start_date</td><td>$end_date</td></tr>";
+		echo "</table>";
+	} else {
+		echo "Error: " . $sql . "<br>" . $conn->error;
+	}
+}
+
+// Close the database connection
+$conn->close();
+?>
+echo '
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8 mr-auto ml-auto text-center py-5 mt-5">
+                    <div class="card">
+                        <div class="card-body">
+                            <h1 class="card-title bg-danger text-white"> Database Connection Failed </h1>
+                            <h2 class="card-title"> Database Failure</h2>
+                            <p class="card-text"> Please Check Your Database Connection.</p>
+                            <a href="#" class="btn btn-primary">:( </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    ';
+}
+
+php admin ka kachra
+?php
+// Connect to the database
+define('DB_SERVER', 'localhost');
+define('DB_USERNAME', 'root');
+define('DB_PASSWORD', '');
+define('DB_NAME', 'adminpanel1');
+$conn = mysqli_connect(DB_SERVER, DB_USERNAME, DB_PASSWORD, DB_NAME);
+
+// Check connection
+if ($conn->connect_error) {
+	die("Connection failed: " . $conn->connect_error);
+}
+
+// Retrieve the room details from the database
+$sql = "SELECT * FROM rooms";
+$result = $conn->query($sql);
+
+// Display the room details on the page
+
+
+// Handle the booking form submissions
+if (isset($_POST["customer_name"])) {
+	$room_id = $_POST["room_id"];
+	$customer_name = $_POST["customer_name"];
+	$start_date = $_POST["start_date"];
+	$end_date = $_POST["end_date"];
+
+	// Insert the booking details into the database
+	$sql = "INSERT INTO rooms (customer_name, start_date, end_date) VALUES ('$customer_name', '$start_date', '$end_date')";
+
+	if ($conn->query($sql) === TRUE) {
+		echo "Booking successful";
+		echo "<table border='1'>";
+		echo "<tr><td>$room_id</td><td>$customer_name</td><td>$start_date</td><td>$end_date</td></tr>";
+		echo "</table>";
+	} else {
+		echo "Error: " . $sql . "<br>" . $conn->error;
+	}
+}
+
+// Close the database connection
+$conn->close();
+?>
+if(isset($_POST['room_id']) && isset($_POST['customer_name']) && isset($_POST['start_date']) && isset($_POST['end_date'])){
+    $room_id = $_POST['room_id'];
+    $customer_name = $_POST['customer_name'];
+    $start_date = $_POST['start_date'];
+    $end_date = $_POST['end_date'];
+
+    // Your code to process the form data goes here
+} else {
+    // Handle the case where the form data is missing
+    echo "Form data is missing";
+}
+admin backup
+<?php
+session_start();
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $username = $_POST['username'];
+    $password = $_POST['password'];
+
+    // Connect to the database
+    $conn = mysqli_connect("localhost", "root", "", "login");
+
+    // Check connection
+    if (!$conn) {
+        die("Connection failed: " . mysqli_connect_error());
+    }
+    //Hardcoded admin username and password
+$admin_username = "admin";
+$admin_password = "password";
+
+// Check if the form has been submitted
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Get the entered username and password
+    $username = $_POST["username"];
+    $password = $_POST["password"];
+
+    // Check if the entered username and password match the admin username and password
+    if ($username == $admin_username && $password == $admin_password) {
+        // Set a session variable to indicate a successful login
+        $_SESSION["admin_logged_in"] = true;
+        
+        // Redirect to the admin dashboard page
+        header("Location: admin_dashboard.php");
+        exit();
+    } else {
+        // Display an error message if the entered username and password do not match the admin username and password
+        $error_message = "Invalid username or password.";
+    }
+    // Query the admins table
+    $sql = "SELECT * FROM admins WHERE username='$username' AND password='$password'";
+    $result = mysqli_query($conn, $sql);
+
+    // Check if a match is found
+    if (mysqli_num_rows($result) == 1) {
+        // Set session variable and redirect to admin dashboard
+        $_SESSION['admin_loggedin'] = true;
+        header("Location: home.php");
+    } else {
+        // Display error message
+        $error_message = "Invalid username or password.";
+    }
+
+    mysqli_close($conn);
+}
+?>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Admin Login</title>
+</head>
+<style>
+form {
+    width: 300px;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #fff;
+}
+
+label {
+    display: block;
+    margin-bottom: 10px;
+}
+
+input[type="text"],
+input[type="password"],
+input[type="submit"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+input[type="submit"] {
+    background-color: #4CAF50;
+    color: #fff;
+    cursor: pointer;
+}
+
+    </style>
+<body>
+    <h1><center>Login</center></h1>
+    <?php if (isset($error_message)) { ?>
+        <p><?php echo $error_message; ?></p>
+    <?php } ?>
+    <form method="post">
+        <label>Username:</label>
+        <input type="text" name="username"><br><br>
+        <label>Password:</label>
+        <input type="password" name="password"><br><br>
+        <input type="submit" value="Submit">
+    </form>
+</body>
+</html>
+
+
+admin_dashboard
+$admin_username = "admin";
+$admin_password = "arzh_4270";
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $username = $_POST["username"];
+    $password = $_POST["password"];
+    if ($username == $admin_username && $password == $admin_password) {
+        $_SESSION["admin_logged_in"] = true;
+        header("Location: adminpanel/admin_dashboard.php");
+        exit();
+    } else {
+        $error_message = "Invalid username or password.";
+    }
+}
+
+<?php 
+include("navigation.php");
+?>
+<!DOCTYPE html>
+<html>
+
+<head>
+<meta charSet="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"/>
+	<title>Room Booking</title>
+	<link rel="stylesheet" href="./CSS/rooms.css">
+
+</head>
+
+<body>
+		<h1>Room Booking</h1>
+	
+	<main>
+	<h2>Available Rooms</h2>
+	<hr>
+	
+	<div class="room-list" style="padding :10px; background: #566573; color: black;">
+			
+			<img src="./Images/Room PNGs/delux.jpg">
+			<ul id="url">
+				<li>
+				<form method="POST"  action="success.php">	
+				<h3>Room Type : Delux</h3>
+					<p>Description: Best Room In Hotel</p>
+					<input type="hidden" name="price" id="price" value="70,000"><p>Price : 70,000 Only</p>
+					
+						<input type="hidden" name="room_id" value="room_id">
+						<input type="hidden" id="customer_name" name="customer_name" value=" <?php echo " " . $_SESSION['username'] . ""; ?>" placeholder="Enter your name" required>
+						<input type="hidden" id="room_type" name="room_type" value="Delux">
+						<label for="start_date">Start Date:</label>
+						<input type="date" id="start_date" name="start_date" required>
+						<label for="end_date">End Date:</label>
+						<input type="date" id="end_date" name="end_date" required> 
+						
+
+						<input type="submit" value="Book">
+					</form>
+				</li>
+			</ul>
+		</div>
+		<div class="room-list" style="padding :10px; background: #566573; color: black;">
+			
+			<img src="./Images/Room PNGs/delux.jpg">
+			<ul id="url">
+				<li>
+				<form method="POST"  action="success.php">	
+				<h3>Room Type : AC</h3>
+					<p>Description: Best Room In Hotel</p>
+					<input type="hidden" name="price" id="price" value="70,000"><p>Price : 70,000 Only</p>
+					
+						<input type="hidden" name="room_id" value="room_id">
+						<input type="hidden" id="customer_name" name="customer_name" value=" <?php echo " " . $_SESSION['username'] . ""; ?>" placeholder="Enter your name" required>
+						<input type="hidden" id="room_type" name="room_type" value="AC">
+						<label for="start_date">Start Date:</label>
+						<input type="date" id="start_date" name="start_date" required>
+						<label for="end_date">End Date:</label>
+						<input type="date" id="end_date" name="end_date" required> 
+						
+
+						<input type="submit" value="Book">
+					</form>
+				</li>
+			</ul>
+		</div>
+		<div class="room-list" style="padding :10px; background: #566573; color: black;">
+			
+			<img src="./Images/Room PNGs/delux.jpg">
+			<ul id="url">
+				<li>
+				<form method="POST"  action="payment.php">	
+				<h3>Room Type : Non-AC</h3>
+					<p>Description: Best Room In Hotel</p>
+					<input type="hidden" name="price" id="price" value="70,000"><p>Price : 70,000 Only</p>
+					
+						<input type="hidden" name="room_id" value="room_id">
+						<input type="hidden" id="customer_name" name="customer_name" value=" <?php echo " " . $_SESSION['username'] . ""; ?>" placeholder="Enter your name" required>
+						<input type="hidden" id="room_type" name="room_type" value="Non-AC">
+						<label for="start_date">Start Date:</label>
+						<input type="date" id="start_date" name="start_date" required>
+						<label for="end_date">End Date:</label>
+						<input type="date" id="end_date" name="end_date" required> 
+						
+
+						<input type="submit" value="Book">
+					</form>
+				</li>
+			</ul>
+		</div>
+		<div class="room-list" style="padding :10px; background: #566573; color: black;">
+			
+			<img src="./Images/Room PNGs/delux.jpg">
+			<ul id="url">
+				<li>
+					<h3>Room Type : Standard</h3>
+					<p>Description: Best Room In Hotel</p>
+					<form method="POST"  action="success.php">
+					<input type="text" name="price" id="price" value="70000" readonly>
+<p>Price: 70,000 Only</p>
+
+					
+						<input type="hidden" name="room_id" value="room_id">
+						<input type="hidden" id="customer_name" name="customer_name" value=" <?php echo " " . $_SESSION['username'] . ""; ?>" placeholder="Enter your name" required>
+						<input type="hidden" id="room_type" name="room_type" value="Standard">
+						<label for="start_date">Start Date:</label>
+						<input type="date" id="start_date" name="start_date" required>
+						<label for="end_date">End Date:</label>
+						<input type="date" id="end_date" name="end_date" required> 
+						
+
+						<input type="submit" value="Book">
+					</form>
+				</li>
+			</ul>
+		</div>
+		<div class="room-list" style="padding :10px; background: #566573; color: black;">
+			
+			<img src="./Images/Room PNGs/delux.jpg">
+			<ul id="url">
+				<li>
+				<form method="POST"  action="success.php">	
+				<h3>Room Type : Suites</h3>
+					<p>Description: Best Room In Hotel</p>
+					<input type="hidden" name="price" id="price" value="70,000"><p>Price : 70,000 Only</p>
+					
+						<input type="hidden" name="room_id" value="room_id">
+						<input type="hidden" id="customer_name" name="customer_name" value=" <?php echo " " . $_SESSION['username'] . ""; ?>" placeholder="Enter your name" required>
+						<input type="hidden" id="room_type" name="room_type" value="Suites">
+						<label for="start_date">Start Date:</label>
+						<input type="date" id="start_date" name="start_date" required>
+						<label for="end_date">End Date:</label>
+						<input type="date" id="end_date" name="end_date" required> 
+						
+
+						<input type="submit" value="Book">
+					</form>
+				</li>
+			</ul>
+		</div>
+	</main>
+	<footer> <p ><span style="display:flex; align-items:center; justify-content: center;"> &copy; Design By Group 39 </span></p> </footer>
+</body>
+
+</html>
+body {
+	margin: 0;
+	padding: 0;
+	font-family: Arial, sans-serif;
+}
+
+
+h1 {
+	margin: 0;
+}
+img{
+	height: 45vw;
+}
+main {
+	padding: 1rem;
+}
+
+.room-list {
+	background-color: rgb(187, 123, 19);
+	margin: 10px;
+	background-color: rgb(187, 123, 19);
+	margin: 12px;
+	border-radius: 7px;
+}
+
+h2 {
+	margin-bottom: 1rem;
+}
+
+#url {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+	margin-right: 194px;
+}
+
+li.roominfo {
+	padding: 1rem;
+	margin-bottom: 1rem;
+	margin-left: 10px !important;
+	margin-right: 194px;
+}
+
+font {
+	display: none;
+}
+
+h3 {
+	margin: 0 0 0.5rem;
+}
+
+form {
+	margin-top: 1rem;
+	height: 89vw;
+	width: 31vw;
+}
+
+label {
+	display: block;
+	margin-bottom: 0.5rem;
+}
+
+input[type="text"],
+input[type="date"] {
+	padding: 0.5rem;
+}
+
+input[type="submit"] {
+	padding: 0.5rem 1rem;
+	background-color: #333;
+	color: #fff;
+	border: none;
+	cursor: pointer;
+}

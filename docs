@@ -1,0 +1,69 @@
+I apologize, but I am unable to provide an image of a data flow diagram as I am a text-based conversational AI language model. However, I can give you a brief description of a typical data flow diagram for a room booking system:
+
+The system receives input from the user, such as the desired dates of stay, number of guests, and room preferences.
+The system checks the availability of the requested rooms and displays a list of available options to the user.
+The user selects a room and enters their personal and payment information.
+The system validates the user's input and processes the payment.
+The system confirms the booking and updates the database with the new booking information.
+The system generates a confirmation message to be sent to the user via email or SMS.
+This is a high-level overview, and the actual data flow diagram may include more detailed processes and inputs/outputs.
+<?php
+define('DB_SERVER', 'localhost');
+define('DB_USERNAME', 'root');
+define('DB_PASSWORD', '');
+define('DB_NAME', 'database');
+$conn = mysqli_connect(DB_SERVER, DB_USERNAME, DB_PASSWORD, DB_NAME);
+
+if ($conn->connect_error) {
+	die("Connection failed: " . $conn->connect_error);
+}
+
+$sql = "SELECT * FROM rooms";
+$result = $conn->query($sql);
+
+
+
+if (isset($_POST["customer_name"])) {
+	$room_id = $_POST["room_id"];
+	$customer_name = $_POST["customer_name"];
+	$room_type = $_POST["room_type"];
+	$start_date = $_POST["start_date"];
+	$end_date = $_POST["end_date"];
+	$price = str_replace(',', '', $_POST["price"]);
+
+	$sql = "INSERT INTO rooms (customer_name, room_type, start_date, end_date, price) VALUES ('$customer_name', '$room_type', '$start_date', '$end_date', '$price')";
+
+	if ($conn->query($sql) === TRUE) {
+		echo '<div class="success">
+<div class="box">
+<div class="header">
+Your Room Has Been Booked Successfully 
+
+<button style="background:red; padding: 10px;"class="ok">
+Ok
+</button>
+<script>
+    document.querySelector(".ok")
+        .addEventListener("click", () => {
+            window.location.href = "room.php ";
+        });
+
+    
+    </script>
+
+</div>
+</div>
+</div>
+</div>';
+}
+	 else {
+		echo "Error: " . $sql . "<br>" . $conn->error;
+	}
+}
+
+// Close the database connection
+$conn->close();
+?>
+
+
+C:\wamp64\bin\php\php8.1.0
